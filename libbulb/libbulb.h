@@ -16,8 +16,10 @@
 #ifndef LIBBULB__LIBBULB_H
 #define LIBBULB__LIBBULB_H
 
+#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
 #include <netdb.h>
 #include <sys/socket.h>
@@ -40,7 +42,7 @@ struct libbulb_group {
 };
 
 struct libbulb_light {
-    struct libbulb_node cnode;
+    struct libbulb_node gnode;
     char label[LIBBULB_LABEL_LEN];
     uint8_t address[LIBBULB_ADDRESS_LEN];
     struct sockaddr_in addr;
