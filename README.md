@@ -25,5 +25,3 @@ Also included is a nifty `libbulb.pc` pkg-config module which can be used with p
 
 This is an application which provides a CLI frontend to `libbulb`.  It exposes all `libbulb` functionality,
 in the convenience of a command-line.  Imagine the shell-scripting possibilities!
-
-Actually it doesn't exist yet, check back next weekend.
