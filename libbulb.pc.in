@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libbulb
+Description: A library for controlling smart lightbulbs
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -lbulb
+

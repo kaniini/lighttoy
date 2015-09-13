@@ -21,6 +21,9 @@ EXTRA_PROGRAMS = unit_tests
 unit_tests_SOURCES = tests/group-test.c
 unit_tests_LDADD   = libbulb.la
 
+pkgconfigdir   = $(datadir)/pkg-config
+pkgconfig_DATA = libbulb.pc
+
 CLEANFILES = $(EXTRA_PROGRAMS)
 
 check: unit_tests
