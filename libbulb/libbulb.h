@@ -48,4 +48,10 @@ struct libbulb_light {
     bool powered;
 };
 
+/*
+ * \func libbulb_group_discover
+ * \return true if peers were found, false otherwise/error
+ */
+extern bool libbulb_group_discover(struct libbulb_group *group);
+
 #endif
