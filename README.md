@@ -25,3 +25,7 @@ Also included is a nifty `libbulb.pc` pkg-config module which can be used with p
 
 This is an application which provides a CLI frontend to `libbulb`.  It exposes all `libbulb` functionality,
 in the convenience of a command-line.  Imagine the shell-scripting possibilities!
+
+It also has some cool built-in effects such as:
+
+  * `--colorstrobe`, like a strobelight except it cycles colors instead of turning on/off.

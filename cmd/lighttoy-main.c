@@ -28,7 +28,8 @@ struct libbulb_group root_group;
 #define PARAM_VALUE             7
 #define PARAM_KELVIN            8
 #define PARAM_SETCOLOR          9
-#define PARAM_SIZE		10
+#define PARAM_COLORSTROBE	10
+#define PARAM_SIZE		11
 
 typedef void (*callback_func)(struct libbulb_light *light);
 
@@ -72,6 +73,18 @@ static void func_setcolor(struct libbulb_light *light) {
     libbulb_light_set_color(light, col);
 }
 
+static void func_colorstrobe(struct libbulb_light *light) {
+    while (true) {
+        libbulb_light_set_color(light, (struct libbulb_color){
+            .hue = rand() % 360,
+            .saturation = (rand() % 100) * 0.01,
+            .value = (rand() % 100) * 0.01,
+            .kelvin = (rand() % 10000),
+        });
+        usleep(atoi(optarg));
+    }
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -88,6 +101,7 @@ main(int argc, char *argv[])
         {"value", required_argument, NULL, PARAM_VALUE},
         {"kelvin", required_argument, NULL, PARAM_KELVIN},
         {"setcolor", no_argument,    NULL, PARAM_SETCOLOR},
+        {"colorstrobe", required_argument, NULL, PARAM_COLORSTROBE},
     };
     static callback_func funcs[PARAM_SIZE] = {
         [PARAM_ON] = func_on,
@@ -99,6 +113,7 @@ main(int argc, char *argv[])
         [PARAM_VALUE] = func_value,
         [PARAM_KELVIN] = func_kelvin,
         [PARAM_SETCOLOR] = func_setcolor,
+        [PARAM_COLORSTROBE] = func_colorstrobe,
     };
 
     libbulb_group_discover(&root_group);
