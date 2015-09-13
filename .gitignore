@@ -1,6 +1,8 @@
 # http://www.gnu.org/software/automake
 
 Makefile.in
+.deps
+.dirstamp
 
 # http://www.gnu.org/software/autoconf
 
