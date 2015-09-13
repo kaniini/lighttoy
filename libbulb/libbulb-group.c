@@ -25,6 +25,22 @@ libbulb_group_send(int sock, lx_protocol_t header, struct sockaddr_in to_addr)
 }
 
 bool
+libbulb_group_address_is_member(struct libbulb_group *group, uint8_t *address)
+{
+    struct libbulb_node *n;
+
+    LIBBULB_FOREACH_LIST_ENTRY(group->lights.head, n)
+    {
+        struct libbulb_light *light = n->data;
+
+        if (!memcmp(light->address, address, 8))
+            return true;
+    }
+
+    return false;
+}
+
+bool
 libbulb_group_discover(struct libbulb_group *group)
 {
     int sock;
@@ -75,6 +91,9 @@ libbulb_group_discover(struct libbulb_group *group)
             continue;
         if (msg.type == LX_PROTOCOL_DEVICE_STATE_SERVICE)
         {
+            if (libbulb_group_address_is_member(group, msg.target))
+                continue;
+
             struct libbulb_light *light = calloc(sizeof(*light), 1);
 
             counter++;

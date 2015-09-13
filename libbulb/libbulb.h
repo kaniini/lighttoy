@@ -71,6 +71,7 @@ extern int libbulb_send(int sock, void *msg, size_t size, struct sockaddr_in sad
  * \return true if peers were found, false otherwise/error
  */
 extern bool libbulb_group_discover(struct libbulb_group *group);
+extern bool libbulb_group_address_is_member(struct libbulb_group *group, uint8_t *address);
 
 /*
  * \group light functions

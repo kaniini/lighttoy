@@ -7,4 +7,4 @@ Name: libbulb
 Description: A library for controlling smart lightbulbs
 Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lbulb
-
+CFlags: -I${includedir}
