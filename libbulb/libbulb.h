@@ -76,5 +76,6 @@ extern bool libbulb_group_discover(struct libbulb_group *group);
  * \group light functions
  */
 extern bool libbulb_light_get_state(struct libbulb_light *light);
+extern bool libbulb_light_set_powered(struct libbulb_light *light, bool powered);
 
 #endif

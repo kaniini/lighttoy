@@ -18,8 +18,15 @@ main(int argc, const char *argv[])
     {
         struct libbulb_light *light = node->data;
 
-        printf("Light %d, address %0.2x%0.2x.%0.2x%0.2x.%0.2x%0.2x.%0.2x%0.2x\n",
+        printf("Light %d, address %0.2x%0.2x.%0.2x%0.2x.%0.2x%0.2x.%0.2x%0.2x:\n",
                ++i, light->address[0], light->address[1], light->address[2], light->address[3],
                light->address[4], light->address[5], light->address[6], light->address[7]);
+        printf("    Hue: %f\n", light->color.hue);
+        printf("    Sat: %f\n", light->color.saturation);
+        printf("    Val: %f\n", light->color.value);
+        printf(" Kelvin: %f\n", light->color.kelvin);
+        printf("  Power: %s\n", light->powered ? "ON" : "OFF");
+
+        libbulb_light_set_powered(light, !light->powered);
     }
 }

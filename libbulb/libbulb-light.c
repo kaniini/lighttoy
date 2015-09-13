@@ -90,3 +90,38 @@ libbulb_light_get_state(struct libbulb_light *light)
 
     return attempts > 0;
 }
+
+bool
+libbulb_light_set_powered(struct libbulb_light *light, bool powered)
+{
+    int sock;
+
+    sock = libbulb_sockopen(false);
+
+    lx_protocol_t header;
+    header.protocol = 1024;
+    header.addressable = 1;
+    header.tagged = 1;
+    header.origin = 0;
+    header.source = 1;
+    for (int i = 0; i < 8; i++)
+        header.target[i] = 0;
+    header.ack_required = 0;
+    header.res_required = 0;
+    header.sequence = 0;
+    header.reserved64 = 0;
+    for(int i = 0; i < 6; i++) {
+        header.reserved[i] = 0;
+    }
+    header.type = LX_PROTOCOL_LIGHT_SET_POWER;
+    header.payload.lx_protocol_light_set_power.level = powered ? 0xFFFF : 0;
+    header.payload.lx_protocol_light_set_power.duration = 0;
+    header.size = lx_protocol_sizeof(lx_protocol_light_set_power_t);
+
+    libbulb_light_send(sock, header, light->addr);
+
+    close(sock);
+
+    light->powered = powered;
+    return light->powered;
+}
