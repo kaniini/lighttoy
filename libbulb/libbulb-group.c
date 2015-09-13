@@ -1,6 +1,6 @@
 /*
- * libbulb.h
- * libbulb - main header.  toplevel management.
+ * libbulb-group.c
+ * libbulb - group management.
  *
  * Copyright (c) 2015 William Pitcock <nenolod@dereferenced.org>.
  *
@@ -19,43 +19,9 @@
 #include <libbulb/protocol.h>
 
 static int
-libbulb_group_sockopen(bool broadcast)
-{
-    int sock, yes = 1;
-    struct sockaddr_in saddr;
-
-    sock = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sock < 0)
-        return -1;
-
-    memset(&saddr, 0, sizeof saddr);
-    saddr.sin_family = AF_INET;
-    saddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    saddr.sin_port = 0;
-
-    if (bind(sock, (struct sockaddr *) &saddr, sizeof saddr) < 0)
-    {
-        close(sock);
-        return -1;
-    }
-
-    struct timeval timeout;
-    timeout.tv_sec = 0;
-    timeout.tv_usec = 200000;
-    setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
-
-    if (broadcast)
-    {
-        setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &yes, sizeof yes);
-    }
-
-    return sock;
-}
-
-static int
 libbulb_group_send(int sock, lx_protocol_t header, struct sockaddr_in to_addr)
 {
-    return sendto(sock, &header, header.size, 0, (struct sockaddr *) &to_addr, sizeof to_addr);
+    return libbulb_send(sock, &header, header.size, to_addr);
 }
 
 bool
@@ -98,7 +64,7 @@ libbulb_group_discover(struct libbulb_group *group)
     header.type = LX_PROTOCOL_DEVICE_GET_SERVICE;
     header.size = offsetof(lx_protocol_t, payload);
 
-    sock = libbulb_group_sockopen(true);
+    sock = libbulb_sockopen(true);
 
     libbulb_group_send(sock, header, saddr);
     while (--attempts > 0) {

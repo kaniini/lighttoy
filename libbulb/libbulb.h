@@ -24,6 +24,7 @@
 #include <netdb.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <unistd.h>
 
 #include <libbulb/iter.h>
 
@@ -49,6 +50,13 @@ struct libbulb_light {
     struct libbulb_color color;
     bool powered;
 };
+
+/*
+ * \func libbulb_sockopen
+ * \return socket fd
+ */
+extern int libbulb_sockopen(bool broadcast);
+extern int libbulb_send(int sock, void *msg, size_t size, struct sockaddr_in saddr);
 
 /*
  * \func libbulb_group_discover

@@ -12,7 +12,8 @@ lib_LTLIBRARIES = libbulb.la
 
 pkginclude_HEADERS = libbulb/iter.h libbulb/libbulb.h
 libbulb_la_SOURCES  =	\
-		libbulb/libbulb-group.c
+		libbulb/libbulb-group.c		\
+		libbulb/libbulb-socket.c
 libbulb_la_LDFLAGS = -version-info 1:0:0 -export-symbols-regex '^libbulb_'
 
 EXTRA_PROGRAMS = unit_tests
