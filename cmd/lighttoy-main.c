@@ -18,7 +18,7 @@
 
 struct libbulb_group root_group;
 
-#define PARAM_LIGHT		0
+#define PARAM_TARGET		0
 #define PARAM_TOGGLE		1
 #define PARAM_ON		2
 #define PARAM_OFF		3
@@ -29,7 +29,8 @@ struct libbulb_group root_group;
 #define PARAM_KELVIN            8
 #define PARAM_SETCOLOR          9
 #define PARAM_COLORSTROBE	10
-#define PARAM_SIZE		11
+#define PARAM_IDENTIFY          11
+#define PARAM_SIZE		12
 
 typedef void (*callback_func)(struct libbulb_light *light);
 
@@ -85,13 +86,26 @@ static void func_colorstrobe(struct libbulb_light *light) {
     }
 }
 
+static void func_identify(struct libbulb_light *light) {
+    struct libbulb_color on = light->color;
+    struct libbulb_color off = light->color;
+
+    off.value = 0;
+    while (true) {
+        libbulb_light_set_color(light, off);
+        usleep(250000);
+        libbulb_light_set_color(light, on);
+        usleep(750000);
+    }
+}
+
 int
 main(int argc, char *argv[])
 {
     int ret;
 
     static struct option options[] = {
-        {"light", required_argument, NULL, PARAM_LIGHT},
+        {"target", required_argument, NULL, PARAM_TARGET},
         {"toggle", no_argument,      NULL, PARAM_TOGGLE},
         {"on", no_argument,          NULL, PARAM_ON},
         {"off", no_argument,         NULL, PARAM_OFF},
@@ -101,6 +115,7 @@ main(int argc, char *argv[])
         {"value", required_argument, NULL, PARAM_VALUE},
         {"kelvin", required_argument, NULL, PARAM_KELVIN},
         {"setcolor", no_argument,    NULL, PARAM_SETCOLOR},
+        {"identify", no_argument,    NULL, PARAM_IDENTIFY},
         {"colorstrobe", required_argument, NULL, PARAM_COLORSTROBE},
     };
     static callback_func funcs[PARAM_SIZE] = {
@@ -114,6 +129,7 @@ main(int argc, char *argv[])
         [PARAM_KELVIN] = func_kelvin,
         [PARAM_SETCOLOR] = func_setcolor,
         [PARAM_COLORSTROBE] = func_colorstrobe,
+        [PARAM_IDENTIFY] = func_identify,
     };
 
     libbulb_group_discover(&root_group);

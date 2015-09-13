@@ -29,3 +29,6 @@ in the convenience of a command-line.  Imagine the shell-scripting possibilities
 It also has some cool built-in effects such as:
 
   * `--colorstrobe`, like a strobelight except it cycles colors instead of turning on/off.
+
+You can also address specific bulbs, using `--target`.  Use `--target` multiple times to combine the
+specified lights into a virtual group.  Use `--identify` to make the bulbs in your group blink.
