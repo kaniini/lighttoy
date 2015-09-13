@@ -33,7 +33,7 @@ libbulb_group_discover(struct libbulb_group *group)
     struct sockaddr_in raddr;
     socklen_t addrlen = sizeof(raddr);
     int recvlen;
-    int counter = 0, attempts = 10;
+    int counter = 0, attempts = 100;
 
     assert(group);
 
