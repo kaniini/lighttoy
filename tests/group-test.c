@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <math.h>
+#include <time.h>
 #include <libbulb/libbulb.h>
 
 struct libbulb_group group;
@@ -12,6 +14,7 @@ main(int argc, const char *argv[])
     (void) argc;
     (void) argv;
 
+    srand(time(NULL));
     libbulb_group_discover(&group);
 
     LIBBULB_FOREACH_LIST_ENTRY(group.lights.head, node)
@@ -27,6 +30,11 @@ main(int argc, const char *argv[])
         printf(" Kelvin: %f\n", light->color.kelvin);
         printf("  Power: %s\n", light->powered ? "ON" : "OFF");
 
-        libbulb_light_set_powered(light, !light->powered);
+        libbulb_light_set_color(light, (struct libbulb_color){
+                .hue = rand() % 360,
+                .saturation = (rand() % 100) * 0.01,
+                .value = (rand() % 100) * 0.01,
+                .kelvin = (rand() % 10000),
+        });
     }
 }

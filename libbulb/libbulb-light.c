@@ -125,3 +125,41 @@ libbulb_light_set_powered(struct libbulb_light *light, bool powered)
     light->powered = powered;
     return light->powered;
 }
+
+bool
+libbulb_light_set_color(struct libbulb_light *light, struct libbulb_color color)
+{
+    int sock;
+
+    sock = libbulb_sockopen(false);
+
+    lx_protocol_t header;
+    header.protocol = 1024;
+    header.addressable = 1;
+    header.tagged = 1;
+    header.origin = 0;
+    header.source = 1;
+    for (int i = 0; i < 8; i++)
+        header.target[i] = 0;
+    header.ack_required = 0;
+    header.res_required = 0;
+    header.sequence = 0;
+    header.reserved64 = 0;
+    for(int i = 0; i < 6; i++) {
+        header.reserved[i] = 0;
+    }
+    header.type = LX_PROTOCOL_LIGHT_SET_COLOR;
+    header.payload.lx_protocol_light_set_color.color.hue = color.hue / 360 * 0xFFFF;
+    header.payload.lx_protocol_light_set_color.color.saturation = color.saturation * 0xFFFF;
+    header.payload.lx_protocol_light_set_color.color.brightness = color.value * 0xFFFF;
+    header.payload.lx_protocol_light_set_color.color.kelvin = color.kelvin;
+    header.payload.lx_protocol_light_set_color.duration = 0;
+    header.size = lx_protocol_sizeof(lx_protocol_light_set_color_t);
+
+    libbulb_light_send(sock, header, light->addr);
+
+    close(sock);
+
+    light->color = color;
+    return light->powered;
+}
