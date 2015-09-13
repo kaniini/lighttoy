@@ -17,6 +17,10 @@ libbulb_la_SOURCES  =	\
 		libbulb/libbulb-socket.c
 libbulb_la_LDFLAGS = -version-info 1:0:0 -export-symbols-regex '^libbulb_'
 
+bin_PROGRAMS = lighttoy
+lighttoy_SOURCES =	\
+		cmd/lighttoy-main.c
+
 EXTRA_PROGRAMS = unit_tests
 unit_tests_SOURCES = tests/group-test.c
 unit_tests_LDADD   = libbulb.la
