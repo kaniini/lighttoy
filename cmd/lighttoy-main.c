@@ -15,8 +15,12 @@
 
 #include <libbulb/libbulb.h>
 
+struct libbulb_group root_group;
+
 int
 main(int argc, const char *argv[])
 {
+    libbulb_group_discover(&root_group);
+
     return 0;
 }
