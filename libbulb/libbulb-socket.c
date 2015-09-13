@@ -55,5 +55,10 @@ libbulb_sockopen(bool broadcast)
 int
 libbulb_send(int sock, void *buf, size_t size, struct sockaddr_in to_addr)
 {
-    return sendto(sock, buf, size, 0, (struct sockaddr *) &to_addr, sizeof to_addr);
+    int ret;
+
+    for (int i = 0; i < 5; i++)
+        ret = sendto(sock, buf, size, 0, (struct sockaddr *) &to_addr, sizeof to_addr);
+
+    return ret;
 }
