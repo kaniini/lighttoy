@@ -83,6 +83,14 @@ libbulb_group_discover(struct libbulb_group *group)
                 light->address[i] = msg.target[i];
 
             light->addr = raddr;
+            if (!libbulb_light_get_state(light))
+            {
+                counter--;
+                free(light);
+
+                continue;
+            }
+
             libbulb_node_insert(&light->gnode, light, &group->lights);
         }
     }
