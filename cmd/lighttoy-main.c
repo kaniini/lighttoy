@@ -92,6 +92,12 @@ static void func_identify(struct libbulb_light *light) {
 
     off.value = 0;
     while (true) {
+        /*
+         * Because people asked, MILSPEC STD-1472 says:
+         *
+         *   If cautions take the form of flashing text, the text should flash
+         *   at a rate not greater than 2 Hz with ON/OFF interval of about 70% on.
+         */
         libbulb_light_set_color(light, off);
         usleep(250000);
         libbulb_light_set_color(light, on);
