@@ -26,6 +26,14 @@ struct libbulb_list {
 };
 
 #define LIBBULB_LIST_INITIALIZER		{ NULL, NULL }
+#define LIBBULB_FOREACH_LIST_ENTRY(head, value) \
+    for ((value) = (head); (value) != NULL; (value) = (value)->next)
+
+#define LIBBULB_FOREACH_LIST_ENTRY_SAFE(head, nextiter, value) \
+    for ((value) = (head), (nextiter) = (head) != NULL ? (head)->next : NULL; (value) != NULL; (value) = (nextiter), (nextiter) = (nextiter) != NULL ? (nextiter)->next : NULL)
+
+#define LIBBULB_FOREACH_LIST_ENTRY_REVERSE(tail, value) \
+    for ((value) = (tail); (value) != NULL; (value) = (value)->prev)
 
 static inline void
 libbulb_node_insert(struct libbulb_node *node, void *data, struct libbulb_list *list)
