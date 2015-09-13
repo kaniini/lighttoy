@@ -52,6 +52,10 @@ struct libbulb_light {
 };
 
 /*
+ * \group util functions
+ */
+
+/*
  * \func libbulb_sockopen
  * \return socket fd
  */
@@ -59,9 +63,17 @@ extern int libbulb_sockopen(bool broadcast);
 extern int libbulb_send(int sock, void *msg, size_t size, struct sockaddr_in saddr);
 
 /*
+ * \group group functions
+ */
+
+/*
  * \func libbulb_group_discover
  * \return true if peers were found, false otherwise/error
  */
 extern bool libbulb_group_discover(struct libbulb_group *group);
+
+/*
+ * \group light functions
+ */
 
 #endif

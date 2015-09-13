@@ -82,6 +82,7 @@ libbulb_group_discover(struct libbulb_group *group)
             for (int i = 0; i < 8; i++)
                 light->address[i] = msg.target[i];
 
+            light->addr = raddr;
             libbulb_node_insert(&light->gnode, light, &group->lights);
         }
     }
